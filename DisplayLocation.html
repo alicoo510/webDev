@@ -1,0 +1,89 @@
+<!DOCTYPE html5>
+<html5>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Display your location</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+    <script src="https://js.arcgis.com/4.28/"></script>
+
+
+    <script>
+      require([
+          "esri/config",
+          "esri/Map",
+          "esri/views/MapView",
+          "esri/widgets/Locate",  //used to find the device and zoom into the map
+
+          "esri/widgets/Track",
+          "esri/Graphic"
+
+        ], function(
+            esriConfig,
+            Map,
+            MapView,
+            Locate,  //used by the widget/Locate
+
+            Track,
+            Graphic
+
+        ) {
+
+        esriConfig.apiKey = "AAPK31d848f94fd5485cb174973b9b6f78a61cxUSxRNs87Ez825d6FhDCqMZw2jG9Ea9aNaX7HI3WxuRLPtyJx5zxxgKI8OpGQg";
+
+        const map = new Map({
+          basemap: "arcgis/navigation"   //means that it is meant for navigation and zooming in to stuff
+        });
+
+        const view = new MapView({
+          container: "viewDiv",
+          map: map,
+          center: [-40, 28],
+          zoom: 2
+        });
+        const track = new Track({
+          view: view,
+          graphic: new Graphic({
+            symbol: {
+              type: "simple-marker",
+              size: "12px",
+              color: "green",
+              outline: {
+                color: "#efefef",
+                width: "1.5px"
+              }
+            }
+          }),
+          useHeadingEnabled: false
+        });
+        view.ui.add(track, "top-left");
+//          const locate = new Locate({  //creates the locate widget
+//          view: view,
+//          useHeadingEnabled: false,
+//          goToOverride: function(view, options) {  //creates custome zoom levels
+//            options.target.scale = 1500;
+//            return view.goTo(options.target);
+//          }
+//        });
+//        view.ui.add(locate, "top-left");
+
+      });
+    </script>
+
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
