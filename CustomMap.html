@@ -126,9 +126,9 @@ const heartLayer = new FeatureLayer({
 
  const simpleFillSymbol = {
     type: "simple-fill",
-    color: [0, 0, 0, 0.8],  // Orange, opacity 80%
+    color: [255, 0, 0, 0.8],  // Orange, opacity 80%
     outline: {
-        color: [255, 255, 255],
+        color: [0, 0, 0],
         width: 1
     }
  };
@@ -138,8 +138,8 @@ const heartLayer = new FeatureLayer({
     content: "{Description}"
  }
  const attributes = {
-    Name: "hey",
-    Description: "did i do it?"
+    Name: "Heart",
+    Description: "pointy heart"
  }
 
  const polygonGraphic = new Graphic({
