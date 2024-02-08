@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    <title>ArcGIS Maps SDK for JavaScript Tutorials: Display a map</title>
+
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%; /*full hieght and width of browser*/
+      }
+    </style>
+        <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+        <script src="https://js.arcgis.com/4.28/"></script>
+        <!--adds reference to the CSS file and JS library -->
+
+         <script>
+      require(["esri/config", "esri/Map", "esri/views/MapView"], function(esriConfig, Map, MapView) {
+         esriConfig.apiKey = "AAPK31d848f94fd5485cb174973b9b6f78a61cxUSxRNs87Ez825d6FhDCqMZw2jG9Ea9aNaX7HI3WxuRLPtyJx5zxxgKI8OpGQg";
+                                //added the API key i got from developers app
+        const map = new Map({
+          basemap: "arcgis/topographic" // basemap styles service
+            });
+
+             const view = new MapView({ //MapView set the location
+          map: map,
+          center: [-118.805, 34.027], // Longitude, latitude
+          zoom: 13, // Zoom level
+          container: "viewDiv" // Div element
+        });
+      });
+    </script>
+    <!--require statement adds the map and map view modules to the map?-->
+  </head>
+  <body>
+    <div id="viewDiv"></div>
+  </body>
+</html>
