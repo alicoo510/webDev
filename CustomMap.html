@@ -1,0 +1,161 @@
+<!--Attempting to mack a custom map with the hostemn feature layer heart and arrow which is valentines themed-->
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+  <title>ArcGIS Maps SDK for JavaScript Tutorials: Add a feature layer</title>
+  <style>
+    html, body, #viewDiv {
+      padding: 0;
+      margin: 0;
+      height: 100%;
+      width: 100%;
+    }
+  </style>
+  <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/light/main.css">
+  <script src="https://js.arcgis.com/4.28/"></script>
+
+  <script>
+  require([
+    "esri/config",
+    "esri/Map",
+    "esri/views/MapView",
+
+    "esri/layers/FeatureLayer",
+    "esri/Graphic",  //needs these modules for it to be able to work right
+    "esri/layers/GraphicsLayer" //adds the feature layer
+
+  ], function(esriConfig, Map, MapView, FeatureLayer, Graphic, GraphicsLayer) {
+
+    esriConfig.apiKey = "AAPK31d848f94fd5485cb174973b9b6f78a61cxUSxRNs87Ez825d6FhDCqMZw2jG9Ea9aNaX7HI3WxuRLPtyJx5zxxgKI8OpGQg";
+
+const map = new Map({
+  basemap: "arcgis/topographic"
+});
+
+const view = new MapView({
+  container: "viewDiv",
+  map: map,
+  center: [-118.80543,34.02700],
+  zoom: 13
+});
+
+//custome map feature layer (points)
+const customMapLayer = new FeatureLayer({
+  url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/ArcGIS/rest/services/AC_GEOJSON/FeatureServer/0"
+});
+//URL are taken from the service rest end point page from arc online but they still dont work 
+
+map.add(customMapLayer);
+
+//arrow feature layer (lines)
+const arrowLayer = new FeatureLayer({
+    url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/ArcGIS/rest/services/AC_GEOJSON/FeatureServer/0"
+  });
+
+  map.add(arrowLayer, 0);
+
+// Heart layer (polygons)
+const heartLayer = new FeatureLayer({
+    url: "https://services1.arcgis.com/pMeXRvgWClLJZr3s/ArcGIS/rest/services/AC_GEOJSON/FeatureServer/1"
+  });
+
+  map.add(heartLayer, 0); //makes sure it is added on top of the array and before trails layer is drawn 
+  const graphicsLayer = new GraphicsLayer();
+ map.add(graphicsLayer); //adding in a graphic layer
+
+ const point = { //Create a point
+    type: "point",
+    longitude: -118.80657463861,
+    latitude: 34.0005930608889
+ };
+ const simpleMarkerSymbol = {
+    type: "simple-marker",
+    color: [245, 66, 218],  // pink
+    outline: {
+        color: [255, 255, 255], // White
+        width: 1
+    }
+ };
+
+ const pointGraphic = new Graphic({
+    geometry: point,
+    symbol: simpleMarkerSymbol
+ });
+ graphicsLayer.add(pointGraphic);
+
+ // Create a line geometry
+ const polyline = {
+    type: "polyline",
+    paths: [
+        
+        [-118.821527826096, 34.0139576938577], //Longitude, latitude
+        [-118.814893761649, 34.0080602407843], //Longitude, latitude
+        [-118.808878330345, 34.0016642996246]  //Longitude, latitude
+    ]
+ };
+ const simpleLineSymbol = {
+    type: "simple-line",
+    color: [245, 66, 66], // red
+    width: 2
+ };
+
+ const polylineGraphic = new Graphic({
+    geometry: polyline,
+    symbol: simpleLineSymbol
+ });
+ graphicsLayer.add(polylineGraphic);
+
+
+ 
+ // Create a polygon geometry
+ const polygon = {
+    type: "polygon",
+    rings: [
+         
+        [-118.818984489994, 34.0197559967283], //Longitude, latitude
+        [-118.806796597377, 34.0115116218700], //Longitude, latitude
+        [-118.789432890735, 34.0193883241613], //Longitude, latitude
+        [-118.79999999935, 34.008564864635],   //Longitude, latitude
+        [-118.806558110679, 34.0035027131376]  //Longitude, latitude
+    ]
+ };
+
+ const simpleFillSymbol = {
+    type: "simple-fill",
+    color: [0, 0, 0, 0.8],  // Orange, opacity 80%
+    outline: {
+        color: [255, 255, 255],
+        width: 1
+    }
+ };
+
+ const popupTemplate = {
+    title: "{Name}",
+    content: "{Description}"
+ }
+ const attributes = {
+    Name: "hey",
+    Description: "did i do it?"
+ }
+
+ const polygonGraphic = new Graphic({
+    geometry: polygon,
+    symbol: simpleFillSymbol,
+
+    attributes: attributes,
+    popupTemplate: popupTemplate
+
+ });
+ graphicsLayer.add(polygonGraphic);
+  });
+</script>
+
+</head>
+<body>
+  <div id="viewDiv"></div>
+</body>
+</html>
